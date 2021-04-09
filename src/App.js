@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import axios from 'axios';
 
 class App extends React.Component {
   constructor(props) {
@@ -12,9 +13,11 @@ class App extends React.Component {
     }
   }
 
-  handleFormSubmit = (event) => {
+  handleFormSubmit = async (event) => {
     event.preventDefault();
     console.log(this.state.city);
+    let cityData = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.city}&format=json`);
+    console.log(cityData);
   }
 
   render() {
