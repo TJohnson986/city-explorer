@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+body {
+  background-color:aquamarine;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif
+}
+
+.jumbotron {
+  text-align: center;
+}
+
+.form {
+  max-width: 300px;
+  padding: 15px;
+}
+
+h1 {
+  padding: 15px;
+}
