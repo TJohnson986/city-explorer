@@ -29,17 +29,18 @@ class App extends React.Component {
     return (
       <>
         <h1>City Explorer</h1>
-        <Form onSubmit={this.handleFormSubmit}>
+        <Form className="form" onSubmit={this.handleFormSubmit}>
           <Form.Group controlId="city">
-            <Form.Label>City Name</Form.Label>
+            <Form.Label>Enter the name of the city that you would like to explore here:</Form.Label>
             <Form.Control value={this.state.city} onInput={e => this.setState({ city: e.target.value })}></Form.Control>
           </Form.Group>
         <Button variant="primary" type="submit">Explore!</Button>
         </Form>
-        {this.state.cityData.lat ? <Jumbotron>
+        {this.state.cityData.lat ? <Jumbotron className="jumbotron">
           <h3>{this.state.cityData.display_name}</h3>
           <h5>{this.state.cityData.lat}, {this.state.cityData.lon}</h5>
-        </Jumbotron> : ""}
+          <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=13`} alt={`Map of ${this.state.cityData.display_name}`}/>
+        </Jumbotron> : ''}
       </>
     )
   }
