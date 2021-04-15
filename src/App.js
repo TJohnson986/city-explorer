@@ -58,10 +58,11 @@ class App extends React.Component {
             {this.state.error}
           </Alert> : ''}
         {this.state.cityData.lat ?
-          <>
+          <> 
             <Jumbotron className="jumbotron">
               <h3>{this.state.cityData.display_name}</h3>
               <h5>{this.state.cityData.lat}, {this.state.cityData.lon}</h5>
+              {/* potentially use cityData.lat and .lon as query params? */}
               <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=13`} alt={`Map of ${this.state.cityData.display_name}`} />
             </Jumbotron>
             <Weather weatherData={this.state.weatherData} />
