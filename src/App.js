@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import { Jumbotron } from 'react-bootstrap';
+import Weather from './weather.js'
 
 class App extends React.Component {
   constructor(props) {
@@ -12,7 +13,8 @@ class App extends React.Component {
 
     this.state = {
       city: '',
-      cityData: {}
+      cityData: {},
+      weatherData: []
     }
   }
 
@@ -25,9 +27,20 @@ class App extends React.Component {
         cityData: wantedCity
       });
     } catch (err) {
-      this.setState({error: `${err.message}: ${err.response.data.error}`});
-    }
+      this.setState({ error: `${err.message}: ${err.response.data.error}` });
+    } this.getWeatherData();
   };
+
+  getWeatherData = async () => {
+    try {
+      const weatherData = await axios.get('http://localhost:3002/weather')
+      this.setState({
+        weatherData: weatherData.data
+      })
+    } catch(err){
+      this.setState({ error: `${err.message}: ${err.response.data.error}` });
+    }
+  }
 
   render() {
     return (
@@ -40,15 +53,20 @@ class App extends React.Component {
           </Form.Group>
           <Button variant="primary" type="submit">Explore!</Button>
         </Form>
-        {this.state.error ? 
-        <Alert variant='warning'>
-          {this.state.error}
-        </Alert> : ''}
-        {this.state.cityData.lat ? <Jumbotron className="jumbotron">
-          <h3>{this.state.cityData.display_name}</h3>
-          <h5>{this.state.cityData.lat}, {this.state.cityData.lon}</h5>
-          <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=13`} alt={`Map of ${this.state.cityData.display_name}`} />
-        </Jumbotron> : ''}
+        {this.state.error ?
+          <Alert variant='warning'>
+            {this.state.error}
+          </Alert> : ''}
+        {this.state.cityData.lat ?
+          <>
+            <Jumbotron className="jumbotron">
+              <h3>{this.state.cityData.display_name}</h3>
+              <h5>{this.state.cityData.lat}, {this.state.cityData.lon}</h5>
+              <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=13`} alt={`Map of ${this.state.cityData.display_name}`} />
+            </Jumbotron>
+            <Weather weatherData={this.state.weatherData} />
+          </>
+          : ''}
       </>
     )
   }
