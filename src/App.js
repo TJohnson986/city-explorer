@@ -32,11 +32,14 @@ class App extends React.Component {
   };
 
   getWeatherData = async () => {
-    const weatherData = await axios.get('http://localhost:3002/weather')
-    this.setState({
-      weatherData: weatherData.data
-    })
-    console.log(this.state);
+    try {
+      const weatherData = await axios.get('http://localhost:3002/weather')
+      this.setState({
+        weatherData: weatherData.data
+      })
+    } catch(err){
+      this.setState({ error: `${err.message}: ${err.response.data.error}` });
+    }
   }
 
   render() {
@@ -61,7 +64,7 @@ class App extends React.Component {
               <h5>{this.state.cityData.lat}, {this.state.cityData.lon}</h5>
               <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=13`} alt={`Map of ${this.state.cityData.display_name}`} />
             </Jumbotron>
-            <Weather weatherData= {this.state.weatherData} />
+            <Weather weatherData={this.state.weatherData} />
           </>
           : ''}
       </>
