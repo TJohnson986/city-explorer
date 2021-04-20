@@ -21,4 +21,3 @@ Possibly draw a wireframe of the site to list necessary components like forms an
 
 ## Credit and Collaborations
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
-
