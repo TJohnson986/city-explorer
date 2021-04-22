@@ -42,6 +42,21 @@ class App extends React.Component {
     }
   }
 
+  getMovieData = async () => {
+    try {
+      const movieData = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/movies`, {
+        params: {
+          city: this.state.city,
+        }
+      });
+      this.setState({
+        movieData: movieData.data
+      })
+    } catch(err){
+      this.setState({ error: `${err.message}: ${err.response.data.error}` });
+    }
+  }
+
   render() {
     return (
       <>
