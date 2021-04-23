@@ -5,7 +5,8 @@ import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import { Jumbotron } from 'react-bootstrap';
-import Weather from './weather.js'
+import Weather from './weather.js';
+import Movies from './movies.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class App extends React.Component {
     this.state = {
       city: '',
       cityData: {},
+      movieData: [],
       weatherData: []
     }
   }
@@ -29,6 +31,7 @@ class App extends React.Component {
     } catch (err) {
       this.setState({ error: `${err.message}: ${err.response.data.error}` });
     } this.getWeatherData();
+    this.getMovieData();
   };
 
   getWeatherData = async () => {
@@ -50,7 +53,7 @@ class App extends React.Component {
         }
       });
       this.setState({
-        movieData: movieData.data
+        movieData: movieData.data,
       })
     } catch(err){
       this.setState({ error: `${err.message}: ${err.response.data.error}` });
@@ -77,10 +80,10 @@ class App extends React.Component {
             <Jumbotron className="jumbotron">
               <h3>{this.state.cityData.display_name}</h3>
               <h5>{this.state.cityData.lat}, {this.state.cityData.lon}</h5>
-              {/* potentially use cityData.lat and .lon as query params? */}
               <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=13`} alt={`Map of ${this.state.cityData.display_name}`} />
             </Jumbotron>
             <Weather weatherData={this.state.weatherData} />
+            <Movies movieData={this.state.movieData} />
           </>
           : ''}
       </>
