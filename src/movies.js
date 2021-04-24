@@ -1,4 +1,5 @@
 import React from 'react';
+import SingleMovie from './SingleMovie.js';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 class Movies extends React.Component {
@@ -10,7 +11,7 @@ class Movies extends React.Component {
 
   render() {
     const allListGroups = this.props.movieData.map((info, index) => (
-      <ListGroup.Item key={index}>{`${info.title}: ${info.overview}`}</ListGroup.Item>
+      <SingleMovie key={index} title={info.title} overview={info.overview} />
     ))
     return (
       <ListGroup>
@@ -20,4 +21,4 @@ class Movies extends React.Component {
   }
 }
 
-export default Movies
+export default Movies;
